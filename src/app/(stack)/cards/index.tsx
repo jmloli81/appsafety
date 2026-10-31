@@ -1,10 +1,16 @@
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../../../../components/shared/CustomButton';
 import MultiSelect from '../../../../components/shared/MultiSelect';
 import { apiUrl } from '../../../config/api';
+
+const formatDate = (date: Date) => {
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+};
 
 const getRegiones = async () => {
     try {
@@ -117,14 +123,22 @@ const CardsScreen = () => {
     const [selectedSubregion, setSelectedSubregion] = useState<string[]>([]);
     const [selectedVehicle, setSelectedVehicle] = useState<string[]>([]);
     const [selectedIata, setSelectedIata] = useState<string[]>([]);
+    const [startDate, setStartDate] = useState(() => new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+    const [endDate, setEndDate] = useState(() => new Date());
+    const [picking, setPicking] = useState<'start' | 'end' | null>(null);
 
-    // const surveyorData = [
-    //     { value: "apple", label: "Apple" },
-    //     { value: "banana", label: "Banana" },
-    //     { value: "cherry", label: "Cherry" },
-    //     { value: "grape", label: "Grape" },
-    //     { value: "orange", label: "Orange" }
-    // ];
+    const onDateChange = (event: DateTimePickerEvent, date?: Date) => {
+        const target = picking;
+        setPicking(null);
+        if (event.type !== 'set' || !date || !target) return;
+        if (target === 'start') {
+            setStartDate(date);
+            if (date > endDate) setEndDate(date);
+        } else {
+            setEndDate(date);
+            if (date < startDate) setStartDate(date);
+        }
+    };
 
     useEffect(() => {
         getRegiones().then(setSurveyorData);
@@ -168,6 +182,24 @@ const CardsScreen = () => {
         <SafeAreaView>
             <View>
                 <Text className='px-10 text-lg font-bold'>Filters</Text>
+                <View className="px-10 mt-5 flex-row justify-between">
+                    <Pressable className="flex-1 mr-2 border border-gray-300 rounded-lg p-3" onPress={() => setPicking('start')}>
+                        <Text className="text-xs text-gray-500">Start date</Text>
+                        <Text>{formatDate(startDate)}</Text>
+                    </Pressable>
+                    <Pressable className="flex-1 ml-2 border border-gray-300 rounded-lg p-3" onPress={() => setPicking('end')}>
+                        <Text className="text-xs text-gray-500">End date</Text>
+                        <Text>{formatDate(endDate)}</Text>
+                    </Pressable>
+                </View>
+                {picking && (
+                    <DateTimePicker
+                        value={picking === 'start' ? startDate : endDate}
+                        mode="date"
+                        maximumDate={new Date()}
+                        onChange={onDateChange}
+                    />
+                )}
                 <View className="px-10 mt-5">
                     <MultiSelect
                         options={surveyorData}
@@ -221,8 +253,8 @@ const CardsScreen = () => {
                                 pathname: '/cards/[detail]',
                                 params: {
                                     detail: 'Kpis',
-                                    fecha_inicio: "2026-10-01",
-                                    fecha_fin: "2026-10-13",
+                                    fecha_inicio: formatDate(startDate),
+                                    fecha_fin: formatDate(endDate),
                                     region: selectedRegion.join(','),
                                     subregion: selectedSubregion.join(','),
                                     iata: selectedIata.join(','),
