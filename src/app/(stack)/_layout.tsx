@@ -4,7 +4,7 @@ const StackLayout = () => {
     return (
         <Stack
             screenOptions={{
-                headerShown: true,
+                headerShown: false,
                 headerShadowVisible: false,
                 contentStyle: {
                     backgroundColor: 'white',
@@ -13,7 +13,7 @@ const StackLayout = () => {
             <Stack.Screen name="home/index" options={{ title: "Home" }} />
             <Stack.Screen name="cards/index" options={{ title: "Cards" }} />
             <Stack.Screen name="graph/index" options={{ title: "Graph" }} />
-            <Stack.Screen name="cards/[detail]" options={{ title: "Detail" }} />
+            {/* <Stack.Screen name="cards/[detail]" options={{ title: "Detail" }} /> */}
         </Stack>
     );
 };

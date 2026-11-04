@@ -30,21 +30,10 @@ const HomeScreen = () => {
                 />}
             </View>
             <View className="px-10 mt-10">
-                {/* <Text className="mb-5">Home</Text> */}
-                {/* <Link className='mb-5' href="./cards/[detail]" asChild><CustomButton color="primary" children="Go to Cards" >cads</CustomButton></Link>
-                <Link className='mb-5' href="./graph" asChild><CustomButton color="secondary" children="Go to Graph" >graph</CustomButton></Link> */}
                 <CustomButton
                     children="Calculator cards"
                     onPress={() => router.push('./cards/[detail]')}
                 />
-                {/* <CustomButton
-                    children="Go to Graph"
-                    color="secondary"
-                    onPress={() => router.push('./graph')}
-                    onLongPress={() => {}}
-                /> */}
-                {/* <Link className='mb-5' href="./cards">Go to Cards</Link>
-                <Link className='mb-5' href="./graph">Go to Graph</Link> */}
             </View>
         </SafeAreaView>
     );
