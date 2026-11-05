@@ -282,7 +282,7 @@ const Cards = ({ filters, onOpenFilters }: { filters: AppliedFilters; onOpenFilt
                 <View className="px-10 mt-4 flex-row flex-wrap justify-between">
                     <View className="w-[48%] mb-4">
                         <KpiCard
-                            title="Total Vehículos"
+                            title="Vehículos"
                             value={totalVehiculos ?? '—'}
                             subtitle="Actualizado hoy"
                             color="#76A115"
@@ -300,7 +300,7 @@ const Cards = ({ filters, onOpenFilters }: { filters: AppliedFilters; onOpenFilt
                     </View> */}
                     <View className="w-[48%] mb-4">
                         <KpiCard
-                            title="Total dispositivos"
+                            title="Dispositivos"
                             value={cardTotales?.wialon_total_objetos ?? '—'}
                             subtitle="Actualizado hoy"
                             color="#76A115"
@@ -309,7 +309,7 @@ const Cards = ({ filters, onOpenFilters }: { filters: AppliedFilters; onOpenFilt
                     </View>
                     <View className="w-[48%] mb-4">
                         <KpiCard
-                            title="Total MDVR"
+                            title="MDVR"
                             value={indicadores?.data?.[0]?.total_mdvr ?? '—'}
                             subtitle="Actualizado hoy"
                             color="#76A115"
@@ -426,6 +426,7 @@ const Filters = ({ onApply }: { onApply: (filters: AppliedFilters) => void }) =>
         setSelectedIata([]);
         setSelectedVehicle([]);
 
+        setSurveyorData([]);
         setSubregionData([]);
         setIataData([]);
         setVehicleData([]);

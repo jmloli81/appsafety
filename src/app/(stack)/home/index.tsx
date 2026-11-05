@@ -2,24 +2,63 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { apiUrl } from '../../../config/api';
+
+const authenticate = async (params: { usuario?: string; passwd?: string }) => {
+    try {
+        const body = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+            if (value) body.append(key, value);
+        });
+
+        body.append("token", "U1RPRHIyVVFGUHFvMSsyeXNCemdNUElMY21FRDRoMW5PcWZnM215R1VyQT0=");
+
+        const response = await fetch(apiUrl("singin"), {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body.toString(),
+        });
+
+        const text = await response.text();
+        if (!text) {
+            console.log("Respuesta vacía del servidor, status:", response.status);
+            return null;
+        }
+
+        try {
+            return JSON.parse(text);
+        } catch {
+            console.log("Respuesta no es JSON:", response.status, text);
+            return null;
+        }
+    } catch (error) {
+        console.log("Error al consumir API:", error);
+        return null;
+    }
+};
 
 const HomeScreen = () => {
     const { width: screenWidth } = useWindowDimensions();
     const [mounted, setMounted] = useState(false);
-    const [email, setEmail] = useState('');
+    const [usuario, setUsuario] = useState('');
     const [password, setPassword] = useState('');
 
     useEffect(() => setMounted(true), []);
 
-    const login = () => {
-        if (!email || !password) {
+    const login = async () => {
+        if (!usuario || !password) {
             Alert.alert('Error', 'Completa todos los campos');
             return;
         }
 
-        Alert.alert('Login', 'Inicio de sesión correcto');
-
-        router.push({ pathname: './cards' });
+        const data = await authenticate({ usuario, passwd: password });
+        console.log('Respuesta de autenticación:', data);
+        if (data?.status) {
+            Alert.alert('Login', 'Inicio de sesión correcto');
+            router.push({ pathname: './cards' });
+        } else {
+            Alert.alert('Error', 'Usuario o contraseña incorrectos');
+        }
 
     };
 
@@ -41,8 +80,8 @@ const HomeScreen = () => {
                     placeholder="Correo electrónico"
                     keyboardType="email-address"
                     autoCapitalize="none"
-                    value={email}
-                    onChangeText={setEmail}
+                    value={usuario}
+                    onChangeText={setUsuario}
                 />
 
                 <TextInput
