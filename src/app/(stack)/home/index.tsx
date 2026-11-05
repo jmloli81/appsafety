@@ -54,7 +54,7 @@ const HomeScreen = () => {
                 />
 
                 <TouchableOpacity style={styles.button} onPress={login}>
-                    <Text style={styles.buttonText}>Entrar</Text>
+                    <Text style={styles.buttonText}>Sign in</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity>

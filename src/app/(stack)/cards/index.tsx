@@ -243,7 +243,7 @@ const Cards = ({ filters, onOpenFilters }: { filters: AppliedFilters; onOpenFilt
             </View>
             <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
                 {/* GRAFICA */}
-                <View className="mt-4" style={{ minHeight: 350 }}>
+                <View className="mt-2" style={{ minHeight: 350 }}>
                     {mounted && totalVehiculos !== undefined && <ProgressChart
                         data={{
                             labels: ['En ruta', 'En corralon', 'En taller', 'Sin actividad', 'Sin conexión'],
@@ -380,7 +380,7 @@ const Cards = ({ filters, onOpenFilters }: { filters: AppliedFilters; onOpenFilt
                     </View>
                 </View>
             </ScrollView>
-            <View className="bg-gray-200 mt-4 py-4 items-center justify-center">
+            <View className="bg-gray-200 mt-4 py-4 items-center justify-center" style={{ backgroundColor: '#fc0' }}>
                 <CustomButton
                     children="Filters"
                     onPress={onOpenFilters}
@@ -489,11 +489,11 @@ const Filters = ({ onApply }: { onApply: (filters: AppliedFilters) => void }) =>
             <View>
                 <Text className='px-10 text-lg font-bold'>Filters</Text>
                 <View className="px-10 mt-5 flex-row justify-between">
-                    <Pressable className="flex-1 mr-2 border border-gray-300 rounded-lg p-3" onPress={() => setPicking('start')}>
+                    <Pressable className="flex-1 mr-2 border border-gray-300 rounded-lg p-3" onPress={() => setPicking('start')} style={{ backgroundColor: 'white' }}>
                         <Text className="text-xs text-gray-500">Start date</Text>
                         <Text>{formatDate(startDate)}</Text>
                     </Pressable>
-                    <Pressable className="flex-1 ml-2 border border-gray-300 rounded-lg p-3" onPress={() => setPicking('end')}>
+                    <Pressable className="flex-1 ml-2 border border-gray-300 rounded-lg p-3" onPress={() => setPicking('end')} style={{ backgroundColor: 'white' }}>
                         <Text className="text-xs text-gray-500">End date</Text>
                         <Text>{formatDate(endDate)}</Text>
                     </Pressable>
