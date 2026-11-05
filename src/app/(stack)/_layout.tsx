@@ -4,10 +4,10 @@ const StackLayout = () => {
     return (
         <Stack
             screenOptions={{
-                headerShown: false,
+                headerShown: true,
                 headerShadowVisible: false,
                 contentStyle: {
-                    backgroundColor: 'white',
+                    backgroundColor: '#fc0',
                 }
             }}>
             <Stack.Screen name="home/index" options={{ title: "Home" }} />
